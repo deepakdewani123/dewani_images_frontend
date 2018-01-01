@@ -6,10 +6,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
+<ion-content class="card-background-page">
+  <ion-list *ngFor="let item of albums">
+    <!-- <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
       {{ item }}
-    </button>
+    </button> -->
+    <ion-card (click)="itemSelected(item)">
+      <!-- <img *ngIf="loading" src="../../assets/imgs/loading.gif" alt="loading" style="width:100%x;height:250px;"/> -->
+      <div style="background: black">
+        <img class="card-image" src="{{item.coverImageURL}}" />
+      </div>
+      <div class="card-title">{{ item.coverTitle }}</div>
+      <!-- <div class="card-subtitle">41 Listings</div> -->
+    </ion-card>
   </ion-list>
 </ion-content>

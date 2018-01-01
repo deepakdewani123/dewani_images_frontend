@@ -8,20 +8,46 @@
 
 <ion-content class="cards-bg social-cards">
   <!-- <ion-scroll scrollY="true"> -->
-  <ion-list no-lines no-padding ion-item *ngFor="let image of images">
+
+  <ion-list *ngIf="loading">
     <ion-card>
-        <img *ngIf="loading" src="../../assets/imgs/loading.gif" alt="loading" style="width:100%x;height:250px;"/>
-        <img [hidden]="loading" src="{{image.url}}" />
+      <img src="../../assets/imgs/spinner.gif" alt="loading" style="width:100%x;height:250px;" />
+      <button clear small icon-start>
+        <ion-icon name='thumbs-up'></ion-icon>
+        0 Likes
+      </button>
+    </ion-card>
+    <ion-card>
+      <img src="../../assets/imgs/spinner.gif" alt="loading" style="width:100%x;height:250px;" />
+      <button clear small icon-start>
+        <ion-icon name='thumbs-up'></ion-icon>
+        0 Likes
+      </button>
+    </ion-card>
+    <ion-card>
+      <img src="../../assets/imgs/spinner.gif" alt="loading" style="width:100%x;height:250px;" />
+      <button clear small icon-start>
+        <ion-icon name='thumbs-up'></ion-icon>
+        0 Likes
+      </button>
+    </ion-card>
+  </ion-list>
+
+
+  <ion-list no-lines no-padding *ngFor="let image of images">
+    <ion-card>
+      <img *ngIf="loading" src="../../assets/imgs/loading.gif" alt="loading" style="width:100%x;height:250px;" />
+      <img [hidden]="loading" src="{{image.url}}" />
 
       <button [ngClass]="{'image_not_liked': !image.isLiked, 'image_liked': image.isLiked}" clear small icon-start (click)="likeImage(image)">
-          <ion-icon name='thumbs-up'></ion-icon>
-          {{ image.likes }} Likes
-        </button>
+        <ion-icon name='thumbs-up'></ion-icon>
+        {{ image.likes }} Likes
+      </button>
 
-      <button clear small icon-start>
+      <!-- <button clear small icon-start>
           <ion-icon name='share-alt'></ion-icon>
           Shares
-        </button>
+        </button> -->
 
       <!-- <ion-row>
         <ion-col>
@@ -58,4 +84,5 @@
   .social-cards ion-col {
     padding: 0;
   }
+
 </style>
