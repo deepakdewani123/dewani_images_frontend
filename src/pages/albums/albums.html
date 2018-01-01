@@ -6,17 +6,32 @@
   </ion-navbar>
 </ion-header>
 
+<ion-list *ngIf="albums.length === 0">
+  <ion-card>
+    <div style="background: rgb(95, 93, 93)">
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif">
+    </div>
+  </ion-card>
+  <ion-card>
+    <div style="background: rgb(95, 93, 93)">
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif">
+    </div>
+  </ion-card>
+  <ion-card>
+    <div style="background: rgb(95, 93, 93)">
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif">
+    </div>
+  </ion-card>
+</ion-list>
+
 <ion-content class="card-background-page">
-  <ion-list *ngFor="let item of albums">
-    <!-- <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-      {{ item }}
-    </button> -->
-    <ion-card (click)="itemSelected(item)">
-      <!-- <img *ngIf="loading" src="../../assets/imgs/loading.gif" alt="loading" style="width:100%x;height:250px;"/> -->
-      <div style="background: black">
-        <img class="card-image" src="{{item.coverImageURL}}" />
+  <ion-list *ngIf="albums.length !== 0">
+    <ion-card *ngFor="let item of albums" (click)="itemSelected(item)">
+      <div style="background: rgb(95, 93, 93)">
+        <img width="100%" class="card-image" (load)="item.loaded = true" [hidden]="!item.loaded" [src]="item.coverImageURL" />
+        <img width="100%" height="150px" src="../../assets/imgs/spinner.gif" [hidden]="item.loaded">
       </div>
-      <div class="card-title">{{ item.coverTitle }}</div>
+      <div *ngIf="item.loaded == true" class="card-title">{{ item.coverTitle }}</div>
       <!-- <div class="card-subtitle">41 Listings</div> -->
     </ion-card>
   </ion-list>

@@ -19,15 +19,7 @@ export class AlbumsPage {
     public navParams: NavParams,
     public imageService: ImageService
   ) {
-    // this.items = ['../../assets/imgs/1.jpg', '../../assets/imgs/1.jpg', '../../assets/imgs/1.jpg', '../../assets/imgs/1.jpg'];
-    // this.titles = ['Album-1', 'Album-2', 'Album-3', 'Album-4']
-    // this.items = ['album-1', 'album-1', 'album-1', 'album-1', 'album-1']
-    // this.albums = [
-    //   { title: "Album-1", url: "../../assets/imgs/1.jpg" },
-    //   { title: "Album-2", url: "../../assets/imgs/1.jpg" },
-    //   { title: "Album-3", url: "../../assets/imgs/1.jpg" },
-    //   { title: "Album-4", url: "../../assets/imgs/1.jpg" }
-    // ];
+    this.albums = [];
   }
 
   ionViewDidLoad() {
@@ -40,7 +32,6 @@ export class AlbumsPage {
   }
 
   parseAlbums() {
-    this.albums = [];
     this.imageService.getAllAlbums().subscribe(
       response => {
         // console.log(response.data);
@@ -48,12 +39,14 @@ export class AlbumsPage {
           const name = res.name;
           const coverImageUrl = res.coverImageURL;
           const coverTitle = res.coverTitle;
+          const loaded = res.loaded;
 
           let album: Album;
           album = new Album({
             name: name,
             coverImageURL: coverImageUrl,
-            coverTitle: coverTitle
+            coverTitle: coverTitle,
+            loaded: loaded
           });
 
           this.albums.push(album);
@@ -66,7 +59,7 @@ export class AlbumsPage {
   }
 
   itemSelected(item: any) {
-    console.log(item.name);
+    // console.log(item.name);
     this.navCtrl.push(ImagesPage, {
       item: item.name
     });

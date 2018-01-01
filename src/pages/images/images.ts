@@ -20,6 +20,7 @@ export class ImagesPage {
   ) {
     this.albumName =
       this.navParams.get("item") == null ? "" : this.navParams.get("item");
+    this.images = [];
     // this.images = ['../../assets/imgs/1.jpg', '../../assets/imgs/2.jpg', '../../assets/imgs/3.jpg']
     // this.images = ['https://s3-ap-southeast-1.amazonaws.com/kr-app-content/images/album-1/1.jpg', 'https://s3-ap-southeast-1.amazonaws.com/kr-app-content/images/album-2/2.jpg', 'https://s3-ap-southeast-1.amazonaws.com/kr-app-content/images/album-3/3.png']
   }
@@ -27,10 +28,13 @@ export class ImagesPage {
   ionViewDidLoad() {
     console.log("ionViewDidLoad ImagesPage");
     // console.log(this.albumName);
+    // this.images = [];
   }
 
   ionViewWillEnter() {
-    this.loading = true;
+    console.log("ionViewWillEnter ImagesPage");
+    // this.loading = true;
+    // this.images = [];
     this.parseImages();
   }
 
@@ -59,31 +63,34 @@ export class ImagesPage {
   //   }
   // }
   parseImages() {
-    this.images = [];
+    // console.log("parse");
     this.imageService.getImagesForAlbum(this.albumName).subscribe(
       response => {
         // console.log(response.data);
         for (let res of response.data) {
-          const id = res.id;
+          const id = res.imageId;
           const imageName = res.imageName;
           const imageUrl = res.imageURL;
           const likes = res.likes;
           const albumName = res.albumName;
           const isLiked = false;
+          const loaded = res.loaded;
 
           let image: Image;
+
           image = new Image({
             id: id,
             name: name,
             url: imageUrl,
             likes: likes,
             isLiked: isLiked,
-            albumName: albumName
+            albumName: albumName,
+            loaded: loaded
           });
 
           this.images.push(image);
         }
-        this.loading = false;
+        // this.loading = false;
       },
       error => {
         console.log(error);
@@ -92,12 +99,33 @@ export class ImagesPage {
   }
 
   likeImage(image: Image) {
-    if (image.isLiked) {
-      image.isLiked = false;
-      image.likes = image.likes - 1;
-    } else {
+    if (!image.isLiked) {
       image.isLiked = true;
       image.likes = image.likes + 1;
+      // console.log(image.id);
+      this.imageService.likeImageForId(image.id, image.isLiked).subscribe(
+        response => {
+          console.log(response);
+          image.likes = response.data.document.likes;
+          image.isLiked = response.data.document.isLiked;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else {
+      image.isLiked = false;
+      image.likes = image.likes - 1;
+      this.imageService.unlikeImageForId(image.id, image.isLiked).subscribe(
+        response => {
+          console.log(response);
+          image.likes = response.data.document.likes;
+          image.isLiked = response.data.document.isLiked;
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
   }
 }

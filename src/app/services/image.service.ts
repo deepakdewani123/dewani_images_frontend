@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Headers, Http, Jsonp, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
@@ -33,7 +33,7 @@ export class ImageService {
     return this.http
       .get(url)
       .map(response => {
-        console.log(response.json());
+        // console.log(response.json());
         return response.json();
       })
       .catch((error: any) => {
@@ -46,16 +46,20 @@ export class ImageService {
       });
   }
 
-  likeImageForId(id: string) {
+  likeImageForId(id: string, liked: boolean) {
     const url = this.baseURL + "/images/update/like";
+    // console.log(id);
+    // console.log(liked);
     const body = {
-      imageId: id
+      imageId: id,
+      isLiked: liked
     };
+    // console.log(this.setBody(body));
 
     return this.http
-      .put(url, this.setBody(body))
+      .put(url, this.setBody(body), this.setHeaders())
       .map(response => {
-        console.log(response.json());
+        // console.log(response.json());
         return response.json();
       })
       .catch((error: any) => {
@@ -68,15 +72,16 @@ export class ImageService {
       });
   }
 
-  unlikeImageForId(id: string) {
+  unlikeImageForId(id: string, isLiked: boolean) {
     const url = this.baseURL + "/images/update/unlike";
     const body = {
-      imageId: id
+      imageId: id,
+      isLiked: isLiked
     };
     return this.http
-      .put(url, this.setBody(body))
+      .put(url, this.setBody(body), this.setHeaders())
       .map(response => {
-        console.log(response.json());
+        // console.log(response.json());
         return response.json();
       })
       .catch((error: any) => {
@@ -89,7 +94,16 @@ export class ImageService {
       });
   }
 
-  setBody(body: object) {
+  setHeaders() {
+    const header = {
+      "Content-Type": "application/json"
+    };
+    const headers = new Headers(header);
+    return new RequestOptions({ headers: headers });
+  }
+
+  setBody(body: any) {
+    // console.log(body);
     return JSON.stringify(body);
   }
 }

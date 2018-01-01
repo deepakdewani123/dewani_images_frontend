@@ -6,42 +6,44 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="cards-bg social-cards">
+<ion-content>
   <!-- <ion-scroll scrollY="true"> -->
 
-  <ion-list *ngIf="loading">
+  <ion-list *ngIf="images.length === 0">
     <ion-card>
-      <img src="../../assets/imgs/spinner.gif" alt="loading" style="width:100%x;height:250px;" />
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif">
       <button clear small icon-start>
         <ion-icon name='thumbs-up'></ion-icon>
-        0 Likes
+        Likes
       </button>
     </ion-card>
     <ion-card>
-      <img src="../../assets/imgs/spinner.gif" alt="loading" style="width:100%x;height:250px;" />
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif">
       <button clear small icon-start>
         <ion-icon name='thumbs-up'></ion-icon>
-        0 Likes
+        Likes
       </button>
     </ion-card>
     <ion-card>
-      <img src="../../assets/imgs/spinner.gif" alt="loading" style="width:100%x;height:250px;" />
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif">
       <button clear small icon-start>
         <ion-icon name='thumbs-up'></ion-icon>
-        0 Likes
+        Likes
       </button>
     </ion-card>
   </ion-list>
 
 
-  <ion-list no-lines no-padding *ngFor="let image of images">
-    <ion-card>
-      <img *ngIf="loading" src="../../assets/imgs/loading.gif" alt="loading" style="width:100%x;height:250px;" />
-      <img [hidden]="loading" src="{{image.url}}" />
-
+  <ion-list no-lines no-padding *ngIf="images.length !== 0">
+    <ion-card *ngFor="let image of images">
+      <!-- <img *ngIf="loading" src="../../assets/imgs/loading.gif" alt="loading" style="width:100%x;height:250px;" /> -->
+      <div style="background: rgb(97, 96, 96);">
+        <img [src]="image.url" (load)="image.loaded = true" [hidden]="!image.loaded" />
+      </div>
+      <img width="100%" height="150px" src="../../assets/imgs/spinner.gif" [hidden]="image.loaded">
       <button [ngClass]="{'image_not_liked': !image.isLiked, 'image_liked': image.isLiked}" clear small icon-start (click)="likeImage(image)">
         <ion-icon name='thumbs-up'></ion-icon>
-        {{ image.likes }} Likes
+        {{ image.likes === 0 ? '' : image.likes }} Likes
       </button>
 
       <!-- <button clear small icon-start>
@@ -79,10 +81,3 @@
 
   <!-- </ion-scroll> -->
 </ion-content>
-
-<style>
-  .social-cards ion-col {
-    padding: 0;
-  }
-
-</style>

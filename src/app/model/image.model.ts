@@ -5,6 +5,10 @@ export class Image {
   likes: number;
   isLiked: boolean;
   albumName: string;
+  loaded: number;
+  width: number;
+  height: number;
+
   constructor(obj?: any) {
     this.id = (obj && obj.id) || "";
     this.url = (obj && obj.url) || "";
@@ -12,5 +16,8 @@ export class Image {
     this.name = (obj && obj.name) || "";
     this.albumName = (obj && obj.albumName) || "";
     this.isLiked = (obj && obj.isLiked) || false;
+    this.loaded = (obj && obj.loaded) || 0;
+    this.width = (obj && obj.width) || 0;
+    this.height = (obj && obj.height) || 0;
   }
 }
