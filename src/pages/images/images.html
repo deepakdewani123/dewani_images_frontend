@@ -43,7 +43,7 @@
       <img width="100%" height="150px" src="../../assets/imgs/spinner.gif" [hidden]="image.loaded">
       <button [ngClass]="{'image_not_liked': !image.isLiked, 'image_liked': image.isLiked}" clear small icon-start (click)="likeImage(image)">
         <ion-icon name='thumbs-up'></ion-icon>
-        {{ image.likes === 0 ? '' : image.likes }} Likes
+        {{ image.likeCount === 0 ? '' : image.likeCount }} Likes
       </button>
 
       <!-- <button clear small icon-start>

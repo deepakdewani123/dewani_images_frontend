@@ -67,14 +67,21 @@ export class ImagesPage {
     this.imageService.getImagesForAlbum(this.albumName).subscribe(
       response => {
         // console.log(response.data);
-        for (let res of response.data) {
-          const id = res.imageId;
-          const imageName = res.imageName;
-          const imageUrl = res.imageURL;
-          const likes = res.likes;
-          const albumName = res.albumName;
-          const isLiked = false;
-          const loaded = res.loaded;
+        for (let item of response.data.images) {
+          const id = item.imageId;
+          const imageName = item.imageName;
+          const imageUrl = item.imageURL;
+          const likeCount = item.likeCount;
+          const albumName = item.albumName;
+          const loaded = item.loaded;
+          const users = item.likedByUsers;
+          let isLiked = false;
+
+          if (users.includes("deepakdewani")) {
+            isLiked = true;
+          } else {
+            isLiked = false;
+          }
 
           let image: Image;
 
@@ -82,7 +89,7 @@ export class ImagesPage {
             id: id,
             name: name,
             url: imageUrl,
-            likes: likes,
+            likeCount: likeCount,
             isLiked: isLiked,
             albumName: albumName,
             loaded: loaded
@@ -101,13 +108,13 @@ export class ImagesPage {
   likeImage(image: Image) {
     if (!image.isLiked) {
       image.isLiked = true;
-      image.likes = image.likes + 1;
+      image.likeCount = image.likeCount + 1;
       // console.log(image.id);
       this.imageService.likeImageForId(image.id, image.isLiked).subscribe(
         response => {
           console.log(response);
-          image.likes = response.data.document.likes;
-          image.isLiked = response.data.document.isLiked;
+          image.likeCount = response.data.document.likeCount;
+          // image.isLiked = response.data.document.isLiked;
         },
         error => {
           console.log(error);
@@ -115,12 +122,12 @@ export class ImagesPage {
       );
     } else {
       image.isLiked = false;
-      image.likes = image.likes - 1;
+      image.likeCount = image.likeCount - 1;
       this.imageService.unlikeImageForId(image.id, image.isLiked).subscribe(
         response => {
           console.log(response);
-          image.likes = response.data.document.likes;
-          image.isLiked = response.data.document.isLiked;
+          image.likeCount = response.data.document.likeCount;
+          // image.isLiked = response.data.document.isLiked;
         },
         error => {
           console.log(error);

@@ -7,7 +7,7 @@ export class ImageService {
   baseURL: string;
 
   constructor(private http: Http) {
-    this.baseURL = "https://71cb7988.ngrok.io";
+    this.baseURL = "https://904536e3.ngrok.io";
   }
 
   getAllAlbums() {
@@ -46,13 +46,13 @@ export class ImageService {
       });
   }
 
-  likeImageForId(id: string, liked: boolean) {
+  likeImageForId(id: string) {
     const url = this.baseURL + "/images/update/like";
     // console.log(id);
     // console.log(liked);
     const body = {
       imageId: id,
-      isLiked: liked
+      username: "deepakdewani"
     };
     // console.log(this.setBody(body));
 
@@ -72,11 +72,11 @@ export class ImageService {
       });
   }
 
-  unlikeImageForId(id: string, isLiked: boolean) {
+  unlikeImageForId(id: string) {
     const url = this.baseURL + "/images/update/unlike";
     const body = {
       imageId: id,
-      isLiked: isLiked
+      username: "deepakdewani"
     };
     return this.http
       .put(url, this.setBody(body), this.setHeaders())
