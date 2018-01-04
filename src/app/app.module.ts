@@ -5,6 +5,7 @@ import { HttpModule } from "@angular/http";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
+import { IonicStorageModule } from "@ionic/storage";
 
 // custom components and modules
 import { MyApp } from "./app.component";
@@ -12,6 +13,7 @@ import { AlbumsPage } from "../pages/albums/albums";
 import { ImagesPage } from "./../pages/images/images";
 import { ImagesPageModule } from "../pages/images/images.module";
 import { AlbumsPageModule } from "./../pages/albums/albums.module";
+import { SignupPageModule } from "./../pages/signup/signup.module";
 
 @NgModule({
   declarations: [
@@ -23,8 +25,10 @@ import { AlbumsPageModule } from "./../pages/albums/albums.module";
     BrowserModule,
     AlbumsPageModule,
     ImagesPageModule,
+    SignupPageModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, AlbumsPage, ImagesPage],

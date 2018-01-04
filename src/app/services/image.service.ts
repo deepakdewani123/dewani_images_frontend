@@ -7,7 +7,7 @@ export class ImageService {
   baseURL: string;
 
   constructor(private http: Http) {
-    this.baseURL = "https://904536e3.ngrok.io";
+    this.baseURL = "https://a3769aaa.ngrok.io";
   }
 
   getAllAlbums() {
@@ -46,20 +46,21 @@ export class ImageService {
       });
   }
 
-  likeImageForId(id: string) {
-    const url = this.baseURL + "/images/update/like";
-    // console.log(id);
-    // console.log(liked);
+  likeImageForId(id: string, status: string) {
+    let url = this.baseURL;
+    if (status === "like") {
+      url = url + "/images/update/like";
+    } else {
+      url = url + "/images/update/unlike";
+    }
+
     const body = {
       imageId: id,
       username: "deepakdewani"
     };
-    // console.log(this.setBody(body));
-
     return this.http
       .put(url, this.setBody(body), this.setHeaders())
       .map(response => {
-        // console.log(response.json());
         return response.json();
       })
       .catch((error: any) => {
@@ -72,16 +73,14 @@ export class ImageService {
       });
   }
 
-  unlikeImageForId(id: string) {
-    const url = this.baseURL + "/images/update/unlike";
+  signUserUp(number: string) {
+    const url = this.baseURL + "/signup";
     const body = {
-      imageId: id,
-      username: "deepakdewani"
+      mobileNumber: number
     };
     return this.http
       .put(url, this.setBody(body), this.setHeaders())
       .map(response => {
-        // console.log(response.json());
         return response.json();
       })
       .catch((error: any) => {

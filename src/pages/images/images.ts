@@ -106,33 +106,26 @@ export class ImagesPage {
   }
 
   likeImage(image: Image) {
+    let status = "";
+
     if (!image.isLiked) {
       image.isLiked = true;
       image.likeCount = image.likeCount + 1;
-      // console.log(image.id);
-      this.imageService.likeImageForId(image.id, image.isLiked).subscribe(
-        response => {
-          console.log(response);
-          image.likeCount = response.data.document.likeCount;
-          // image.isLiked = response.data.document.isLiked;
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      status = "like";
     } else {
       image.isLiked = false;
       image.likeCount = image.likeCount - 1;
-      this.imageService.unlikeImageForId(image.id, image.isLiked).subscribe(
-        response => {
-          console.log(response);
-          image.likeCount = response.data.document.likeCount;
-          // image.isLiked = response.data.document.isLiked;
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      status = "unlike";
     }
+    this.imageService.likeImageForId(image.id, status).subscribe(
+      response => {
+        console.log(response);
+        image.likeCount = response.data.document.likeCount;
+        // image.isLiked = response.data.document.isLiked;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
