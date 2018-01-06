@@ -2,12 +2,10 @@ import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { ImageService } from "./../../app/services/image.service";
 import { AlertController } from "ionic-angular";
-/**
- * Generated class for the SignupPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ModalController } from "ionic-angular";
+import { Storage } from "@ionic/storage";
+import { AlbumsPage } from "../albums/albums";
+import { LoadingController } from "ionic-angular";
 
 @IonicPage()
 @Component({
@@ -16,11 +14,19 @@ import { AlertController } from "ionic-angular";
 })
 export class SignupPage {
   mobileNumber: string;
+
+  loader = this.loadingCtrl.create({
+    content: "Please wait...",
+    spinner: "crescent"
+  });
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public imageService: ImageService,
-    public alertCtrl: AlertController
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private imageService: ImageService,
+    private alertCtrl: AlertController,
+    private storage: Storage,
+    private modalCtrl: ModalController,
+    private loadingCtrl: LoadingController
   ) {
     this.mobileNumber = "";
   }
@@ -31,19 +37,32 @@ export class SignupPage {
 
   signUserUp(number: string) {
     // console.log(number);
+    this.loader.present();
 
     this.imageService.signUserUp(number).subscribe(
       response => {
         if (response.data.allowed) {
-          if (!response.data.created) {
-          } else {
-            this.showAlert("You are already signed up!");
-          }
+          this.storage.set("userID", response.data.user.userID);
+          this.storage.set("userName", response.data.user.userName);
+          this.loader.dismiss();
+          let modal = this.modalCtrl.create(AlbumsPage);
+          modal.present();
+          // this.navCtrl.push(AlbumsPage);
         } else {
           this.showAlert("You're not allowed to access this application");
         }
+        // if (response.data.allowed) {
+        //   if (!response.data.registered) {
+        //   } else {
+        //     this.showAlert("You are already signed up!");
+        //   }
+        // } else {
+        //   this.showAlert("You're not allowed to access this application");
+        // }
       },
-      error => {}
+      error => {
+        this.showAlert("There was an error signing you up.");
+      }
     );
   }
 
@@ -54,5 +73,13 @@ export class SignupPage {
       buttons: ["OK"]
     });
     alert.present();
+  }
+
+  presentLoading() {
+    let loader = this.loadingCtrl.create({
+      content: "Please wait...",
+      spinner: "crescent"
+    });
+    loader.present();
   }
 }

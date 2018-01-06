@@ -18,7 +18,7 @@ export class MyApp {
     platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    storage: Storage
+    private storage: Storage
   ) {
     platform.ready().then(() => {
       storage.get("userID").then(
@@ -27,6 +27,7 @@ export class MyApp {
           if (val) {
             console.log("value");
             this.rootPage = AlbumsPage;
+            this.storage.set("userID", "");
           } else {
             console.log("no value");
             this.rootPage = SignupPage;
@@ -42,4 +43,8 @@ export class MyApp {
       splashScreen.hide();
     });
   }
+
+  // ionViewWillUnload() {
+  //   this.storage.set("userID", "");
+  // }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Jsonp, RequestOptions } from "@angular/http";
+import { Headers, Http, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 
 @Injectable()
@@ -7,7 +7,7 @@ export class ImageService {
   baseURL: string;
 
   constructor(private http: Http) {
-    this.baseURL = "https://a3769aaa.ngrok.io";
+    this.baseURL = "https://7f98cc9f.ngrok.io";
   }
 
   getAllAlbums() {
@@ -74,12 +74,12 @@ export class ImageService {
   }
 
   signUserUp(number: string) {
-    const url = this.baseURL + "/signup";
+    const url = this.baseURL + "/user/signup";
     const body = {
       mobileNumber: number
     };
     return this.http
-      .put(url, this.setBody(body), this.setHeaders())
+      .post(url, this.setBody(body), this.setHeaders())
       .map(response => {
         return response.json();
       })

@@ -24,6 +24,7 @@ export class AlbumsPage {
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad AlbumsPage");
+
     this.parseAlbums();
   }
 
