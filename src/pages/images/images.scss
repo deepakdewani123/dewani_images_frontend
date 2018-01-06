@@ -20,6 +20,35 @@ page-images {
   }
   ion-list {
     ion-card {
+      .separator {
+        width: 95%;
+        height: 1px;
+        background: #ededed;
+        margin: 0px auto;
+      }
+      .likes_count {
+        display: inline-flex;
+        padding: 5px 10px;
+        .like_count_background {
+          background: #3669c9;
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          text-align: center;
+          .like_count_icon {
+            width: 10px;
+            height: 10px;
+            margin: auto auto;
+            position: relative;
+            top: -4px;
+          }
+        }
+        .like_count_text {
+          color: darkgrey;
+          font-size: 12px;
+          padding: 0px 5px;
+        }
+      }
       button {
         padding: 10px;
         font-size: 15px;

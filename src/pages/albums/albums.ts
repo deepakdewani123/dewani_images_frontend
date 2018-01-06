@@ -62,7 +62,8 @@ export class AlbumsPage {
   itemSelected(item: any) {
     // console.log(item.name);
     this.navCtrl.push(ImagesPage, {
-      item: item.name
+      title: item.coverTitle,
+      name: item.name
     });
   }
 }

@@ -46,9 +46,9 @@ export class ImageService {
       });
   }
 
-  likeImageForId(id: string, status: string) {
+  likeImageForId(id: string, action: string, username: string) {
     let url = this.baseURL;
-    if (status === "like") {
+    if (action === "like") {
       url = url + "/images/update/like";
     } else {
       url = url + "/images/update/unlike";
@@ -56,7 +56,7 @@ export class ImageService {
 
     const body = {
       imageId: id,
-      username: "deepakdewani"
+      username: username
     };
     return this.http
       .put(url, this.setBody(body), this.setHeaders())

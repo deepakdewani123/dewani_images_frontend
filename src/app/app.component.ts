@@ -27,7 +27,7 @@ export class MyApp {
           if (val) {
             console.log("value");
             this.rootPage = AlbumsPage;
-            this.storage.set("userID", "");
+            // this.storage.set("userID", "");
           } else {
             console.log("no value");
             this.rootPage = SignupPage;

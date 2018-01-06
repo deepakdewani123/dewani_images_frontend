@@ -36,34 +36,28 @@ export class SignupPage {
   }
 
   signUserUp(number: string) {
-    // console.log(number);
-    this.loader.present();
-
-    this.imageService.signUserUp(number).subscribe(
-      response => {
-        if (response.data.allowed) {
-          this.storage.set("userID", response.data.user.userID);
-          this.storage.set("userName", response.data.user.userName);
-          this.loader.dismiss();
-          let modal = this.modalCtrl.create(AlbumsPage);
-          modal.present();
-          // this.navCtrl.push(AlbumsPage);
-        } else {
-          this.showAlert("You're not allowed to access this application");
+    if (number === "") {
+      this.showAlert("Please enter you mobile number");
+    } else {
+      this.loader.present();
+      this.imageService.signUserUp(number).subscribe(
+        response => {
+          if (response.data.allowed) {
+            this.storage.set("userID", response.data.user.userID);
+            this.storage.set("userName", response.data.user.userName);
+            this.loader.dismiss();
+            let modal = this.modalCtrl.create(AlbumsPage);
+            modal.present();
+            // this.navCtrl.push(AlbumsPage);
+          } else {
+            this.showAlert("You're not allowed to access this application");
+          }
+        },
+        error => {
+          this.showAlert("There was an error signing you up.");
         }
-        // if (response.data.allowed) {
-        //   if (!response.data.registered) {
-        //   } else {
-        //     this.showAlert("You are already signed up!");
-        //   }
-        // } else {
-        //   this.showAlert("You're not allowed to access this application");
-        // }
-      },
-      error => {
-        this.showAlert("There was an error signing you up.");
-      }
-    );
+      );
+    }
   }
 
   showAlert(subTitle: string) {

@@ -1,3 +1,4 @@
+import { Storage } from "@ionic/storage";
 import { ImageService } from "./../../app/services/image.service";
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
@@ -9,6 +10,7 @@ import { Image } from "../../app/model/image.model";
   templateUrl: "images.html"
 })
 export class ImagesPage {
+  albumTitle: string;
   albumName: string;
   images: Image[];
   loading: boolean;
@@ -16,10 +18,13 @@ export class ImagesPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public imageService: ImageService
+    public imageService: ImageService,
+    private storage: Storage
   ) {
     this.albumName =
-      this.navParams.get("item") == null ? "" : this.navParams.get("item");
+      this.navParams.get("name") == null ? "" : this.navParams.get("name");
+    this.albumTitle =
+      this.navParams.get("title") == null ? "" : this.navParams.get("title");
     this.images = [];
     // this.images = ['../../assets/imgs/1.jpg', '../../assets/imgs/2.jpg', '../../assets/imgs/3.jpg']
     // this.images = ['https://s3-ap-southeast-1.amazonaws.com/kr-app-content/images/album-1/1.jpg', 'https://s3-ap-southeast-1.amazonaws.com/kr-app-content/images/album-2/2.jpg', 'https://s3-ap-southeast-1.amazonaws.com/kr-app-content/images/album-3/3.png']
@@ -106,25 +111,36 @@ export class ImagesPage {
   }
 
   likeImage(image: Image) {
-    let status = "";
+    let userName = "";
+    this.storage.get("userName").then(
+      val => {
+        userName = val.toLowerCase().replace(/ +/g, "");
+        // console.log(userName);
+        let action = "";
 
-    if (!image.isLiked) {
-      image.isLiked = true;
-      image.likeCount = image.likeCount + 1;
-      status = "like";
-    } else {
-      image.isLiked = false;
-      image.likeCount = image.likeCount - 1;
-      status = "unlike";
-    }
-    this.imageService.likeImageForId(image.id, status).subscribe(
-      response => {
-        console.log(response);
-        image.likeCount = response.data.document.likeCount;
-        // image.isLiked = response.data.document.isLiked;
+        if (!image.isLiked) {
+          image.isLiked = true;
+          image.likeCount = image.likeCount + 1;
+          action = "like";
+        } else {
+          image.isLiked = false;
+          image.likeCount = image.likeCount - 1;
+          action = "unlike";
+        }
+
+        this.imageService.likeImageForId(image.id, action, userName).subscribe(
+          response => {
+            console.log(response);
+            image.likeCount = response.data.document.likeCount;
+            // image.isLiked = response.data.document.isLiked;
+          },
+          error => {
+            console.log(error);
+          }
+        );
       },
-      error => {
-        console.log(error);
+      err => {
+        console.log(err);
       }
     );
   }
