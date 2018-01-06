@@ -3,11 +3,69 @@ import { ImageService } from "./../../app/services/image.service";
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { Image } from "../../app/model/image.model";
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from "@angular/animations";
 
 @IonicPage()
 @Component({
   selector: "page-images",
-  templateUrl: "images.html"
+  templateUrl: "images.html",
+  animations: [
+    trigger("likeAnimation", [
+      state(
+        "like",
+        style({
+          transform: "scale(1)"
+        })
+      ),
+      state(
+        "unlike",
+        style({
+          transform: "scale(1)"
+        })
+      ),
+      transition(
+        "unlike => like",
+        animate(
+          "300ms ease-in",
+          keyframes([
+            style({ transform: "scale(1.0) rotate(-5deg)", offset: 0.0 }),
+            style({ transform: "scale(1.2) rotate(-10deg)", offset: 0.1 }),
+            style({ transform: "scale(1.3) rotate(-15deg)", offset: 0.2 }),
+            style({ transform: "scale(1.4) rotate(-20deg)", offset: 0.3 }),
+            style({ transform: "scale(1.4) rotate(-25deg)", offset: 0.4 }),
+            style({ transform: "scale(1.5) rotate(-30deg)", offset: 0.5 }),
+            style({ transform: "scale(1.4) rotate(-25deg)", offset: 0.6 }),
+            style({ transform: "scale(1.3) rotate(-20deg)", offset: 0.7 }),
+            style({ transform: "scale(1.2) rotate(-15deg)", offset: 0.8 }),
+            style({ transform: "scale(1.1) rotate(-10deg)", offset: 0.9 }),
+            style({ transform: "scale(1.0) rotate(0deg)", offset: 1.0 })
+          ])
+        )
+      )
+    ]),
+    trigger("visibility", [
+      state(
+        "shown",
+        style({
+          height: "10px"
+        })
+      ),
+      state(
+        "hidden",
+        style({
+          height: "0px"
+        })
+      ),
+      transition("* => *", animate(".5s"))
+    ])
+  ]
 })
 export class ImagesPage {
   albumTitle: string;
@@ -80,12 +138,18 @@ export class ImagesPage {
           const albumName = item.albumName;
           const loaded = item.loaded;
           const users = item.likedByUsers;
+          let state = "unlike";
           let isLiked = false;
+          let visibility = "hidden";
 
           if (users.includes("deepakdewani")) {
             isLiked = true;
+            state = "like";
+            visibility = "shown";
           } else {
             isLiked = false;
+            state = "unlike";
+            visibility = "hidden";
           }
 
           let image: Image;
@@ -97,9 +161,10 @@ export class ImagesPage {
             likeCount: likeCount,
             isLiked: isLiked,
             albumName: albumName,
-            loaded: loaded
+            loaded: loaded,
+            state: state,
+            visibility: visibility
           });
-
           this.images.push(image);
         }
         // this.loading = false;
@@ -111,6 +176,10 @@ export class ImagesPage {
   }
 
   likeImage(image: Image) {
+    image.visibility = image.likeCount === 0 ? "hidden" : "shown";
+    image.state = image.state === "unlike" ? "like" : "unlike";
+    // this.state = this.state === "unlike" ? "like" : "unlike";
+
     let userName = "";
     this.storage.get("userName").then(
       val => {

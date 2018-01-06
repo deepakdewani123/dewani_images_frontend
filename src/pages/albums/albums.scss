@@ -9,7 +9,8 @@ page-albums {
   .list-md {
     margin: 0px;
   }
-  .card-ios {
+  .card-ios,
+  .card-md {
     margin: 12px 5px;
     border-radius: 2px;
     width: calc(100% - 10px);

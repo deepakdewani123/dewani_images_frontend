@@ -6,6 +6,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
 import { IonicStorageModule } from "@ionic/storage";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // custom components and modules
 import { MyApp } from "./app.component";
@@ -27,6 +28,7 @@ import { SignupPageModule } from "./../pages/signup/signup.module";
     ImagesPageModule,
     SignupPageModule,
     HttpModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],

@@ -53,7 +53,7 @@
       </div>
       <div *ngIf="image.likeCount !== 0" class="separator"></div>
       <button [ngClass]="{'image_not_liked': !image.isLiked, 'image_liked': image.isLiked}" clear small icon-start (click)="likeImage(image)">
-        <ion-icon name='thumbs-up'></ion-icon> Like
+        <ion-icon [@likeAnimation]='image.state' name="{{ image.isLiked ? 'thumbs-up' : 'thumbs-up-outline'  }}"></ion-icon> Like
       </button>
 
       <!-- <button clear small icon-start>
