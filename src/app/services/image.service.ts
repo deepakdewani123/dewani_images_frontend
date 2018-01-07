@@ -7,7 +7,7 @@ export class ImageService {
   baseURL: string;
 
   constructor(private http: Http) {
-    this.baseURL = "https://7f98cc9f.ngrok.io";
+    this.baseURL = "http://localhost:3050";
   }
 
   getAllAlbums() {

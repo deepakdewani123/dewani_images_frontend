@@ -1,0 +1,39 @@
+<!--
+  Generated template for the GalleryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+
+  <ion-navbar>
+    <!-- <ion-title>gallery</ion-title> -->
+    <!-- <ion-buttons start>
+      <button icon-only (click)="dismiss()">
+        <ion-icon class="close_button" name="close"></ion-icon>
+      </button>
+    </ion-buttons> -->
+    <ion-icon (click)="dismiss()" class="close_button" name="close"></ion-icon>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-slides [spaceBetween]="10" (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let image of images">
+      <img class="gallery_image" [src]="image.url" (load)="image.loaded = true" [hidden]="!image.loaded" />
+      <!-- <img width="100%" height="150px" src="../../assets/imgs/spinner.gif" [hidden]="image.loaded"> -->
+      <!-- <div *ngIf="image.likeCount !== 0" class="likes_count">
+        <div class="like_count_background">
+          <div class="like_count_icon">
+            <ion-icon style="color: white; font-size: 8px;" name='thumbs-up'></ion-icon>
+          </div>
+        </div>
+        <div *ngIf="image.likeCount > 1 && image.isLiked === false" class="like_count_text"> {{ image.likeCount }}</div>
+        <div *ngIf="image.likeCount > 1 && image.isLiked === true" class="like_count_text"> You and {{ image.likeCount - 1 }} others</div>
+        <div *ngIf="image.likeCount === 1 && image.isLiked === true" class="like_count_text">You</div>
+      </div> -->
+    </ion-slide>
+  </ion-slides>
+</ion-content>

@@ -15,6 +15,7 @@ import { ImagesPage } from "./../pages/images/images";
 import { ImagesPageModule } from "../pages/images/images.module";
 import { AlbumsPageModule } from "./../pages/albums/albums.module";
 import { SignupPageModule } from "./../pages/signup/signup.module";
+import { GalleryPageModule } from "./../pages/gallery/gallery.module";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SignupPageModule } from "./../pages/signup/signup.module";
     AlbumsPageModule,
     ImagesPageModule,
     SignupPageModule,
+    GalleryPageModule,
     HttpModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),

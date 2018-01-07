@@ -3,6 +3,8 @@ import { ImageService } from "./../../app/services/image.service";
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { Image } from "../../app/model/image.model";
+import { GalleryPage } from "./../gallery/gallery";
+import { ModalController } from "ionic-angular";
 import {
   trigger,
   state,
@@ -77,7 +79,8 @@ export class ImagesPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public imageService: ImageService,
-    private storage: Storage
+    private storage: Storage,
+    private modalCtrl: ModalController
   ) {
     this.albumName =
       this.navParams.get("name") == null ? "" : this.navParams.get("name");
@@ -212,5 +215,16 @@ export class ImagesPage {
         console.log(err);
       }
     );
+  }
+
+  itemSelected() {
+    // console.log(item.name);
+    // this.navCtrl.push(GalleryPage, {
+    //   images: this.images
+    // });
+    let modal = this.modalCtrl.create(GalleryPage, {
+      images: this.images
+    });
+    modal.present();
   }
 }
