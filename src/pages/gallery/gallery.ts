@@ -57,16 +57,16 @@ import {
       state(
         "shown",
         style({
-          height: "10px"
+          opacity: "1"
         })
       ),
       state(
         "hidden",
         style({
-          height: "0px"
+          opacity: "0"
         })
       ),
-      transition("* => *", animate(".5s"))
+      transition("shown <=> hidden", animate(".25s"))
     ])
   ]
 })
@@ -76,6 +76,7 @@ export class GalleryPage {
   likeCount: number;
   isLiked: boolean;
   state: string;
+  visibility: string;
 
   @ViewChild(Slides) slides: Slides;
 
@@ -92,6 +93,7 @@ export class GalleryPage {
       this.navParams.get("index") == 0 ? [] : this.navParams.get("index");
 
     this.state = "unlike";
+    this.visibility = "shown";
   }
 
   ionViewDidLoad() {
@@ -114,12 +116,11 @@ export class GalleryPage {
   }
 
   likeImage() {
-    // image.visibility = image.likeCount === 0 ? "hidden" : "shown";
     let currentIndex = this.slides.getActiveIndex();
     const image = this.images[currentIndex];
     this.isLiked = image.isLiked;
     // this.state = image.state;
-    console.log(this.isLiked);
+    // console.log(this.isLiked);
     this.state = image.state === "unlike" ? "like" : "unlike";
     image.state = this.state;
 
@@ -159,6 +160,11 @@ export class GalleryPage {
         console.log(err);
       }
     );
+  }
+
+  tapEvent(e) {
+    this.visibility = this.visibility === "shown" ? "hidden" : "shown";
+    console.log("dfadsf");
   }
 
   dismiss() {

@@ -13,7 +13,7 @@
         <ion-icon class="close_button" name="close"></ion-icon>
       </button>
     </ion-buttons> -->
-    <ion-icon (click)="dismiss()" class="close_button" name="close"></ion-icon>
+    <ion-icon [@visibility]='visibility' (click)="dismiss()" class="close_button" name="close"></ion-icon>
   </ion-navbar>
 
 </ion-header>
@@ -21,7 +21,7 @@
 <ion-content>
 
   <ion-slides [spaceBetween]="10" (ionSlideDidChange)="slideChanged()">
-    <ion-slide *ngFor="let image of images">
+    <ion-slide *ngFor="let image of images" (tap)="tapEvent($event)">
       <img class="gallery_image" [src]="image.url" (load)="image.loaded = true" [hidden]="!image.loaded" />
       <img width="100%" height="150px" src="../../assets/imgs/spinner.gif" [hidden]="image.loaded">
       <!-- <div *ngIf="image.likeCount !== 0" class="likes_count">
@@ -37,7 +37,7 @@
     </ion-slide>
   </ion-slides>
 
-  <div class="social">
+  <div [@visibility]='visibility' class="social">
     <div *ngIf="likeCount !== 0" class="likes_count">
       <div class="like_count_background">
         <div class="like_count_icon">
