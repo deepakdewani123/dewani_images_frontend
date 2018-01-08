@@ -217,13 +217,14 @@ export class ImagesPage {
     );
   }
 
-  itemSelected() {
+  itemSelected(index: number) {
     // console.log(item.name);
     // this.navCtrl.push(GalleryPage, {
     //   images: this.images
     // });
     let modal = this.modalCtrl.create(GalleryPage, {
-      images: this.images
+      images: this.images,
+      index: index
     });
     modal.present();
   }

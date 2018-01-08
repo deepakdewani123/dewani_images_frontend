@@ -17,36 +17,57 @@ page-gallery {
     }
   }
   ion-content {
-    ion-scroll.item {
-      height: 100%;
+    .social {
+      position: absolute;
+      z-index: 100;
+      bottom: 7px;
+      width: 100%;
+      .separator {
+        width: 95%;
+        height: 1px;
+        background: white;
+        margin: 0px auto;
+        bottom: 25px;
+      }
+      button {
+        padding: 10px;
+        font-size: 13px;
+        background: #ff000000;
+        margin-left: 15px;
+        color: white;
+        ion-icon {
+          vertical-align: top;
+        }
+      }
+      .image_not_liked {
+        color: white;
+      }
+      .image_liked {
+        color: rgb(54, 106, 201);
+      }
     }
+
     .scroll-content {
       background: #000000;
     }
     ion-slides {
       background: black;
       ion-slide {
-        .gallery_image {
-          max-height: 50%;
-        }
+        // .gallery_image {
+        //   max-height: 50%;
+        // }
       }
     }
     .social_section {
       position: absolute;
       bottom: 0px;
       width: 100%;
-
-      .separator {
-        width: 95%;
-        height: 1px;
-        background: white;
-        margin: 0px auto;
-      }
     }
 
     .likes_count {
       display: inline-flex;
-      padding: 5px 10px;
+      padding: 10px 10px;
+
       .like_count_background {
         background: #3669c9;
         border-radius: 50%;
@@ -65,6 +86,12 @@ page-gallery {
         color: darkgrey;
         font-size: 12px;
         padding: 0px 5px;
+      }
+      .separator {
+        width: 92%;
+        height: 1px;
+        background: #ededed;
+        margin: 0px auto;
       }
     }
   }

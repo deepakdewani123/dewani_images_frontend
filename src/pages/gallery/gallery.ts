@@ -52,11 +52,31 @@ import {
           ])
         )
       )
+    ]),
+    trigger("visibility", [
+      state(
+        "shown",
+        style({
+          height: "10px"
+        })
+      ),
+      state(
+        "hidden",
+        style({
+          height: "0px"
+        })
+      ),
+      transition("* => *", animate(".5s"))
     ])
   ]
 })
 export class GalleryPage {
   images: Image[];
+  index: number;
+  likeCount: number;
+  isLiked: boolean;
+  state: string;
+
   @ViewChild(Slides) slides: Slides;
 
   constructor(
@@ -67,41 +87,68 @@ export class GalleryPage {
   ) {
     this.images =
       this.navParams.get("images") == null ? [] : this.navParams.get("images");
+
+    this.index =
+      this.navParams.get("index") == 0 ? [] : this.navParams.get("index");
+
+    this.state = "unlike";
   }
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad GalleryPage");
   }
 
+  ionViewWillEnter() {
+    this.slides.slideTo(this.index, 0);
+  }
+
   loadImages() {}
 
-  likeImage(image: Image) {
+  slideChanged() {
+    const currentIndex = this.slides.getActiveIndex();
+    const image = this.images[currentIndex];
+    this.likeCount = image.likeCount;
+    this.isLiked = image.isLiked;
+
+    // console.log("Current index is", currentIndex);
+  }
+
+  likeImage() {
     // image.visibility = image.likeCount === 0 ? "hidden" : "shown";
-    image.state = image.state === "unlike" ? "like" : "unlike";
-    // this.state = this.state === "unlike" ? "like" : "unlike";
+    let currentIndex = this.slides.getActiveIndex();
+    const image = this.images[currentIndex];
+    this.isLiked = image.isLiked;
+    // this.state = image.state;
+    console.log(this.isLiked);
+    this.state = image.state === "unlike" ? "like" : "unlike";
+    image.state = this.state;
 
     let userName = "";
     this.storage.get("userName").then(
       val => {
         userName = val.toLowerCase().replace(/ +/g, "");
-        // console.log(userName);
         let action = "";
 
-        if (!image.isLiked) {
+        if (!this.isLiked) {
+          this.isLiked = true;
+          this.likeCount = image.likeCount + 1;
           image.isLiked = true;
-          image.likeCount = image.likeCount + 1;
+          image.likeCount = this.likeCount;
           action = "like";
         } else {
+          this.isLiked = false;
+          this.likeCount = image.likeCount - 1;
           image.isLiked = false;
-          image.likeCount = image.likeCount - 1;
+          image.likeCount = this.likeCount;
           action = "unlike";
         }
 
         this.imageService.likeImageForId(image.id, action, userName).subscribe(
           response => {
             console.log(response);
+
             image.likeCount = response.data.document.likeCount;
-            // image.isLiked = response.data.document.isLiked;
+            this.likeCount = image.likeCount;
           },
           error => {
             console.log(error);
@@ -113,10 +160,7 @@ export class GalleryPage {
       }
     );
   }
-  slideChanged() {
-    let currentIndex = this.slides.getActiveIndex();
-    console.log("Current index is", currentIndex);
-  }
+
   dismiss() {
     this.navCtrl.pop();
   }
